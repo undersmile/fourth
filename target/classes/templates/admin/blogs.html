@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragment/front_fragment :: head(~{::title})">
+		<title>何年の再遇见-博客管理</title>
+	</head>
+	<body>
+		<!-- 导航部分 -->
+		<nav th:replace="fragment/admin_fragment :: navigation(2)"></nav>
+
+		<div class="ui attached pointing menu">
+			<div class="ui container">
+				<div class="right menu">
+					<a th:href="@{/admin/blogsInput}" class="item">文章发布</a>
+					<a th:href="@{/admin/blogs}" class="active blue item">文章列表</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 内容部分 -->
+		<div class="m-padded-tb-large">
+			<div class="ui container">
+				<div class="ui segment form m-box-shadow">
+					<input type="hidden" name="page">
+					<div class="inline fields" style="margin: 15px 0px;">
+						<div class="field m-margin-tb-tiny">
+							<input type="text" name="title" placeholder="标题">
+						</div>
+						<div class="field m-margin-tb-tiny">
+							<div class="ui labeled action input">
+								<div class="ui type selection dropdown">
+									<input type="hidden" name="typeId">
+									<i class="dropdown icon"></i>
+									<div class="default text">文章分类</div>
+									<div class="menu">
+										<div th:each="type : ${types}" class="item" th:data-value="${type.id}" th:text="${type.name}">
+											数据结构和算法
+										</div>
+									</div>
+								</div>
+								<button id="clear-btn" class="ui clear mini red basic button" style="margin-left: 5px; border-radius: 10px;">clear</button>
+							</div>
+						</div>
+						<div class="field">
+							<div class="ui toggle checkbox">
+								<input type="checkbox" id="recommend" name="recommend">
+								<label for="recommend">是否推荐</label>
+							</div>
+						</div>
+						<div class="field">
+							<button type="button" id="search-btn" class="ui basic mini teal button"><i class="search icon"></i>搜索
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="ui success message m-box-shadow" th:unless="${#strings.isEmpty(message)}">
+					<i class="close icon"></i>
+					<div class="header">操作提示：</div>
+					<p th:text="${message}">恭喜您，操作成功！</p>
+				</div>
+				<div id="table-container">
+					<!-- 定义一个 blogList 片段，用于条件查询的局部刷新 -->
+					<table th:fragment="blogList" class="ui celled blue table m-box-shadow">
+						<thead>
+						<tr style="text-align: center">
+							<th>编号</th>
+							<th>标题</th>
+							<th>类型</th>
+							<th>推荐</th>
+							<th>更新时间</th>
+							<th>发布状态</th>
+							<th>文章属性</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr th:each="blog,iterStat : ${page.content}" style="text-align: center">
+							<td th:text="${iterStat.count}">1</td>
+							<td th:text="${blog.title}">Java 基础入门</td>
+							<td th:text="${blog.category.name}">Java 学习</td>
+							<td th:text="${blog.recommend} ? '是':'否'">是</td>
+							<td th:text="${blog.updateTime}">2020-10-01</td>
+							<td th:text="${blog.published} ? '发布':'草稿'">草稿</td>
+							<td th:text="${blog.flag}">原创</td>
+							<td>
+								<a th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui basic mini teal button">编辑</a>
+								<a th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui basic mini red button">删除</a>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<th colspan="8" style="text-align: center;" th:if="${page.totalPages} > 1">
+								<div class="ui pagination menu">
+									<a onclick="page(this)" th:attr="data-page=${page.number} - 1" class="item" th:unless="${page.first}">上一页</a>
+									<a onclick="page(this)" th:attr="data-page=${page.number} + 1" class="item" th:unless="${page.last}">下一页</a>
+								</div>
+							</th>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面底部 -->
+		<footer th:replace="fragment/front_fragment :: footer"></footer>
+
+		<!-- JS 部分 -->
+		<th:block th:replace="fragment/front_fragment :: script"></th:block>
+		<script>
+			$('.menu.toggle').click(function() {
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+			$('.ui.dropdown').dropdown({
+				on: 'hover'
+			});
+			// 消息提示关闭初始化
+			$('.message .close').on('click', function () {
+				$(this).closest('.message').transition('fade');
+			});
+
+			$('#clear-btn').on('click', function () {
+				$('.ui.type.dropdown').dropdown('clear');
+			});
+			function page(obj) {
+				$("[name='page']").val($(obj).data("page"));
+				loadData();
+			}
+
+			$("#search-btn").click(function () {
+				$("[name='page']").val(0);
+				loadData();
+			});
+
+			function loadData() {
+				$("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search", {
+					title: $("[name='title']").val(),
+					typeId: $("[name='typeId']").val(),
+					recommend: $("[name='recommend']").prop('checked'),
+					page: $("[name='page']").val()
+				});
+			}
+		</script>
+	</body>
+</html>

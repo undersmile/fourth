@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragment/front_fragment :: head(~{::title})">
+		<title>何年の再遇见-博客分类</title>
+	</head>
+	<body>
+		<!-- 导航部分 -->
+		<nav th:replace="fragment/front_fragment :: navigation(3)"></nav>
+
+		<!-- 中间内容部分 -->
+		<div class="m-padded-tb-large">
+			<div class="ui container">
+				<!-- header，显示博客文章总数 -->
+				<div class="ui top segment m-box-shadow">
+					<div class="ui middle aligned two column grid">
+						<div class="column"><h3 class="ui blue header">博客文章分类</h3></div>
+						<div class="right aligned column">
+							共 <h2 class="ui orange header m-inline-block" th:text="${#arrays.length(types)}"> 14 </h2> 个分类
+						</div>
+					</div>
+				</div>
+				<div class="ui bottom segment m-box-shadow">
+					<div class="ui labeled button m-margin-tb-tiny" th:each="type : ${types}">
+						<a th:href="@{/categories/{id}(id=${type.id})}" class="ui button" th:classappend="${type.id==activeTypeId} ? 'blue'" th:text="${type.name}">人生哲理</a>
+						<div class="ui basic left pointing label" th:classappend="${type.id==activeTypeId} ? blue" th:text="${#arrays.length(type.blogs)}">23</div>
+					</div>
+				</div>
+				<div class="ui two stackable grid">
+					<!-- 右侧部分 博客文章列表 -->
+					<div class="eight wide column" th:each="blog,iterStat : ${page.content}">
+						<div class="ui segment m-box-shadow" th:if="${iterStat.count} % 4 == 1 or ${iterStat.count} % 4 == 2">
+							<div class="ui vertical m-padded-mini segment">
+								<div class="ui stackable mobile reversed grid">
+									<div class="nine wide column">
+										<h3 class="ui header"><a target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" class="m-black" th:text="${blog.title}">你真的理解什么是财富自由吗？</a></h3>
+										<p class="m-text" th:text="|${blog.description}...|">正确做好任何一件事情的前提是清晰有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
+									</div>
+									<div class="seven wide column">
+										<a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+											<img th:src="@{${blog.firstPicture}}" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+								<div class="ui grid m-text-thin m-text-spaced middle aligned">
+									<div class="twelve wide column m-padded-tiny-blog">
+										<div class="ui mini horizontal link list">
+											<div class="item">
+												<!-- 作者头像：url 中的两个 100 指的是图片的宽度和高度 -->
+												<img th:src="@{${blog.user.avatar}}" class="ui avatar image">
+												<div class="content"><a th:href="@{/about}" class="header" th:text="${blog.user.nickname}">何年の再遇见</a></div>
+											</div>
+											<div class="item">浏览：[[${blog.views}]] 次</div>
+										</div>
+									</div>
+									<div class="right aligned four wide column m-padded-tiny-blog" style="padding-right: 14px !important;">
+										<a href="#" class="ui teal label m-padded-tiny-blog m-text-thin" th:text="${blog.category.name}">财富知识</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui segment m-box-shadow" th:if="${iterStat.count} % 4 == 0 or ${iterStat.count} % 4 == 3">
+							<div class="ui vertical m-padded-mini segment">
+								<div class="ui stackable grid">
+									<div class="seven wide column">
+										<a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
+											<img th:src="@{${blog.firstPicture}}" class="ui rounded image"/>
+										</a>
+									</div>
+									<div class="nine wide column">
+										<h3 class="ui header"><a target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" class="m-black" th:text="${blog.title}">你真的理解什么是财富自由吗？</a></h3>
+										<p class="m-text" th:text="|${blog.description}...|">正确做好任何一件事情的前提是清晰有对目标正确的定义，甚至根本从来就没有想过，只是大家都那么做而已…...</p>
+									</div>
+								</div>
+								<div class="ui grid m-text-thin m-text-spaced middle aligned">
+									<div class="twelve wide column m-padded-tiny-blog">
+										<div class="ui mini horizontal link list">
+											<div class="item">
+												<!-- 作者头像：url 中的两个 100 指的是图片的宽度和高度 -->
+												<img th:src="@{${blog.user.avatar}}" class="ui avatar image">
+												<div class="content"><a th:href="@{/about}" class="header" th:text="${blog.user.nickname}">何年の再遇见</a></div>
+											</div>
+											<div class="item">浏览：[[${blog.views}]] 次</div>
+										</div>
+									</div>
+									<div class="right aligned four wide column m-padded-tiny-blog" style="padding-right: 14px !important;">
+										<a href="#" class="ui teal label m-padded-tiny-blog m-text-thin" th:text="${blog.category.name}">财富知识</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 上一页/下一页的按钮 -->
+				<div class="ui segment" style="border: none;border-radius: 0;box-shadow: none;" th:if="${page.totalPages} > 1">
+					<div class="ui middle aligned two column grid">
+						<div class="column right aligned">
+							<a th:href="@{'/categories/' + ${activeTypeId}(page=${page.number} - 1)}" th:unless="${page.first}"  class="ui teal basic button">上一页</a>
+						</div>
+						<div class="column left aligned">
+							<a th:href="@{'/categories/' + ${activeTypeId}(page=${page.number} + 1)}" th:unless="${page.last}"  class="ui teal basic button">下一页</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面底部 -->
+		<footer th:replace="fragment/front_fragment :: footer"></footer>
+
+		<!-- JS 部分 -->
+		<th:block th:replace="fragment/front_fragment :: script"></th:block>
+		<script>
+			$('.menu.toggle').click(function() {
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+		</script>
+	</body>
+</html>

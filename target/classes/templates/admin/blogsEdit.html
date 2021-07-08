@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragment/front_fragment :: head(~{::title})">
+		<title>何年の再遇见-发布博客</title>
+	</head>
+
+	<body>
+		<!-- 导航部分 -->
+		<nav th:replace="fragment/admin_fragment :: navigation(2)"></nav>
+
+		<div class="ui attached pointing menu">
+			<div class="ui container">
+				<div class="right menu">
+					<a th:href="@{/admin/blogsInput}" class="active blue item">文章发布</a>
+					<a th:href="@{/admin/blogs}" class="item">文章列表</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 中间内容部分 -->
+		<div class="m-padded-tb-large">
+			<div class="ui container">
+				<!-- th:object="${blog}" 表示拿到 blog 对象，这个对象存在于博客修改的 model 中 -->
+				<form id="blog-form" th:action="@{/admin/blogs}" method="post" th:object="${blog}" class="ui form">
+					<input type="hidden" name="published" th:value="*{published}">
+					<input type="hidden" name="id" th:value="*{id}">
+					<div class="two fields">
+						<div class="required field">
+							<div class="ui left action labeled input">
+								<label class="ui compact blue basic label">标题</label>
+								<input type="text" name="title" th:value="*{title}" placeholder="请填写标题"/>
+							</div>
+						</div>
+						<div class="required field">
+							<div class="ui left action labeled input">
+								<label class="ui compact blue basic label">属性</label>
+								<div class="ui fluid selection dropdown">
+									<input type="hidden" value="原创" name="flag" th:value="*{flag}"/>
+									<i class="dropdown icon"></i>
+									<div class="default text">请选择文章的属性</div>
+									<div class="menu">
+										<div class="item" data-value="原创">原创</div>
+										<div class="item" data-value="转载">转载</div>
+										<div class="item" data-value="翻译">翻译</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="required field">
+						<div class="ui left labeled input">
+							<label class="ui blue basic label">首图</label>
+							<input type="text" name="firstPicture" th:value="*{firstPicture}" placeholder="请填写首图引用地址">
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="required field">
+							<div class="ui left action labeled input">
+								<label class="ui compact blue basic label">分类</label>
+								<div class="ui fluid selection dropdown">
+									<input type="hidden" name="category.id" th:value="*{category} != null ? *{category.id}"/>
+									<i class="dropdown icon"></i>
+									<div class="default text">请选择分类</div>
+									<div class="menu">
+										<div th:each="type : ${categories}" class="item" th:data-value="${type.id}" th:text="${type.name}">
+											数据结构和算法
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="required field">
+							<div class="ui left action labeled input">
+								<label class="ui compact blue basic label">标签</label>
+								<div class="ui fluid multiple search selection dropdown">
+									<input type="hidden" name="tagIds" th:value="*{tagIds}"/>
+									<i class="dropdown icon"></i>
+									<div class="default text">请选择标签</div>
+									<div class="menu">
+										<div th:each="tag : ${tags}" class="item" th:data-value="${tag.id}" th:text="${tag.name}">
+											MySQL
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="required field">
+						<div id="md-content" style="z-index: 1 !important;">
+							<textarea placeholder="博客内容" name="content" style="display: none" th:text="*{content}"></textarea>
+						</div>
+					</div>
+					<div class="required field">
+						<textarea name="description" th:text="*{description}" placeholder="博客文章的主要信息描述..." maxlength="200"></textarea>
+					</div>
+					<div class="ui two grid">
+						<div class="eight wide column" style="line-height: 42px;">
+							<div class="inline fields">
+								<div class="field">
+									<div class="ui toggle checkbox">
+										<input type="checkbox" name="recommend" th:check="*{recommend}" checked="checked" id="recommend" class="hidden" />
+										<label for="recommend">推荐</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui toggle checkbox">
+										<input type="checkbox" name="shareStatement" th:check="*{shareStatement}" checked="checked" id="shareStatement" class="hidden" />
+										<label for="shareStatement">转载声明</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui toggle checkbox">
+										<input type="checkbox" name="appreciation" th:check="*{appreciation}" checked="checked" id="appreciation" class="hidden" />
+										<label for="appreciation">赞赏</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui toggle checkbox">
+										<input type="checkbox" name="commentabled" th:check="*{commentabled}" checked="checked" id="commentabled" class="hidden" />
+										<label for="commentabled">评论</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="eight wide column">
+							<div class="ui left aligned container">
+								<button type="button" class="ui red basic button" onclick="window.history.go(-1)">返回</button>
+								<button type="button" id="save-btn" class="ui blue basic button">保存</button>
+								<button type="button" id="publish-btn" class="ui teal basic button">发布</button>
+							</div>
+						</div>
+					</div>
+					<!-- 错误提示的 div 盒子 -->
+					<div class="ui error message"></div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 页面底部 -->
+		<footer th:replace="fragment/front_fragment :: footer"></footer>
+
+		<!-- JS 部分 -->
+		<th:block th:replace="fragment/front_fragment :: script"></th:block>
+		<script>
+			// 初始化 Markdown 编辑器
+			var contentEditor;
+			$(function() {
+				contentEditor = editormd("md-content", {
+					width: "100%",
+					height: 640,
+					syncScrolling: "single",
+					path: "/lib/editormd/lib/"
+				});
+			});
+			$('.menu.toggle').click(function() {
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+			$('.ui.dropdown').dropdown({
+				on: 'hover'
+			});
+			$('#save-btn').click(function () {
+				$('[name="published"]').val(false);
+				$('#blog-form').submit();
+			});
+			$('#publish-btn').click(function () {
+				$('[name="published"]').val(true);
+				$('#blog-form').submit();
+			});
+			$('.ui.form').form({
+				fields: {
+					title: {
+						identifier: 'title',
+						rules: [{
+							type: 'empty',
+							prompt: '请输入博客标题'
+						}]
+					}
+				},
+				content: {
+					identifier: 'content',
+					rules: [{
+						type: 'empty',
+						prompt: '内容：请输入博客内容'
+					}]
+				},
+				typeId: {
+					identifier: 'category.id',
+					rules: [{
+						type: 'empty',
+						prompt: '分类：请输入博客分类'
+					}]
+				},
+				firstPicture: {
+					identifier: 'firstPicture',
+					rules: [{
+						type: 'empty',
+						prompt: '首图：请输入博客首图'
+					}]
+				},
+				description: {
+					identifier: 'description',
+					rules: [{
+						type: 'empty',
+						prompt: '描述：请输入博客描述'
+					}]
+				}
+			});
+		</script>
+	</body>
+</html>

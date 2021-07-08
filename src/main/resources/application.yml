@@ -1,0 +1,20 @@
+spring:
+  thymeleaf:
+    mode: HTML
+  # 解决 ==> Request method 'POST' not supported 报错的问题
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  # 指定使用哪一个配置文件，是生产环境还是开发环境
+  profiles:
+    active: dev
+
+
+comment_avatar: /images/avatar.jpg
+
+# 配置 session 过期时间
+server:
+  servlet:
+    session:
+      timeout: 60m

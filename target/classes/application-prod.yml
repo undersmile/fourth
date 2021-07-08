@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graduation_design_blog?serverTimezone=GMT%2B8
+    username: lth
+    password: root
+  # Jpa 配置
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+# 日志的配置
+logging:
+  level:
+    root: warn
+    club.guoshizhan: info
+  file:
+    name: log/blog-prod.log
+
+# 指定生产环境端口号
+server:
+  port: 80

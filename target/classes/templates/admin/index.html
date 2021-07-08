@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragment/front_fragment :: head(~{::title})">
+    <title>何年の再遇见-后台首页</title>
+</head>
+
+<body>
+
+
+
+<!-- 导航部分 -->
+<nav th:replace="fragment/admin_fragment :: navigation(1)"></nav>
+
+
+
+<!-- 中间内容 -->
+<div class="m-padded-tb-big">
+    <div class="ui container">
+        <div class="ui success large message m-box-shadow">
+            <h3>Hello~~~</h3>
+            <p>
+               欢迎 <span th:text="${session.user.username}" style="color: red;">GuoShiZhan</span> 用户登录博客后台系统！
+            </p>
+        </div>
+        <img th:src="@{/images/404.jpg}" alt="" class="ui rounded bordered fluid image m-box-shadow">
+    </div>
+</div>
+
+<!-- 页面底部 -->
+<footer th:replace="fragment/front_fragment :: footer"></footer>
+<th:block th:replace="fragment/front_fragment :: script"></th:block>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+</script>
+</body>
+</html>

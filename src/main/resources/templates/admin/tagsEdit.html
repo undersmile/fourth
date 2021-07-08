@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragment/front_fragment :: head(~{::title})">
+    <title>何年の再遇见-添加标签</title>
+</head>
+<body>
+
+
+
+<!-- 导航部分 -->
+<nav th:replace="fragment/admin_fragment :: navigation(4)"></nav>
+
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/tags/input}" class="active blue item">添加标签</a>
+            <a href="#" th:href="@{/admin/tags}" class="item">标签列表</a>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 中间内容 -->
+<div class="m-padded-tb-big" style="min-height: 420px;">
+    <div class="ui container">
+        <form action="#" method="post" th:object="${tag}" th:action="*{id}==null ? @{/admin/tags} : @{/admin/tags/{id}(id=*{id})} " class="ui form">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class=" field">
+                <div class="ui left labeled input">
+                    <label class="ui teal basic label">标签名称</label>
+                    <input type="text" name="name" placeholder="标签名称" th:value="*{name}">
+                </div>
+            </div>
+
+            <div class="ui error message"></div>
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+                <i class="close icon"></i>
+                <div class="header">验证失败~~~</div>
+                <p th:errors="*{name}">提交信息不符合规则！</p>
+            </div>
+            <div class="ui right aligned container">
+                <button type="button" class="ui red button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui blue submit button">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<footer th:replace="fragment/front_fragment :: footer"></footer>
+<th:block th:replace="fragment/front_fragment :: script"></th:block>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    $('.ui.form').form({
+        fields: {
+            title: {
+                identifier: 'name',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入标签名称'
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

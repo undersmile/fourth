@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="fragment/front_fragment :: head(~{::title})">
+    <title>何年の再遇见-添加分类</title>
+</head>
+
+<body>
+
+<!-- 导航部分 -->
+<nav th:replace="fragment/admin_fragment :: navigation(3)"></nav>
+
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a th:href="@{/admin/categories/edit}" class="active blue item">添加分类</a>
+            <a th:href="@{/admin/categories}" class="item">分类列表</a>
+        </div>
+    </div>
+</div>
+
+<!-- 内容部分 -->
+<div class="m-padded-tb-large" style="min-height: 360px;margin-top: 60px;">
+    <div class="ui container">
+        <form th:action="*{id} == null ? @{/admin/categories/insert} : @{/admin/categories/insert/{id}(id=*{id})}" method="post" th:object="${category}" class="ui form">
+            <!-- <input type="hidden" name="id" th:value="*{id}"> -->
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui teal basic label">新增分类名称</label>
+                    <input type="text" name="name" placeholder="分类名称" th:value="*{name}">
+                </div>
+            </div>
+            <!-- 错误提示的 div 盒子 -->
+            <div class="ui error message"></div>
+            <div class="ui negative message" th:if="${#fields.hasErrors('name')}"  >
+              <i class="close icon"></i>
+              <div class="header">验证失败~~~</div>
+              <p th:errors="*{name}">提交信息不符合规则</p>
+            </div>
+            <div class="ui right aligned container">
+                <button type="button" class="ui red button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui blue submit button">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 页面底部 -->
+<footer th:replace="fragment/front_fragment :: footer"></footer>
+<th:block th:replace="fragment/front_fragment :: script"></th:block>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+    $('.ui.form').form({
+        fields: {
+            title: {
+                identifier: 'name',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入博客标题'
+                }]
+            }
+        }
+    });
+</script>
+</body>
+</html>

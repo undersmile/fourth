@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragment/front_fragment :: head(~{::title})">
+    <title>何年の再遇见-标签管理</title>
+</head>
+<body>
+
+
+
+<!-- 导航部分 -->
+<nav th:replace="fragment/admin_fragment :: navigation(4)"></nav>
+
+<div class="ui attached pointing menu">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/tags/input}" class="item">添加标签</a>
+            <a href="#" th:href="@{/admin/tags}" class="blue active item">标签列表</a>
+        </div>
+    </div>
+</div>
+
+<!-- 中间内容 -->
+<div class="m-padded-tb-large">
+    <div class="ui container">
+        <div class="ui success message m-box-shadow" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜，操作成功！</p>
+        </div>
+
+        <table class="ui blue table m-box-shadow">
+            <style>
+                .ui.table thead th {text-align: center;}
+                .ui.table tbody td {text-align: center;}
+            </style>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>名称</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="type,iterStat : ${page.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${type.name}">刻意练习清单</td>
+                <td>
+                    <a href="#" th:href="@{/admin/tags/{id}/input(id=${type.id})}" class="ui mini teal basic button">编辑</a>
+                    <a href="#" th:href="@{/admin/tags/{id}/delete(id=${type.id})}" class="ui mini red basic button">删除</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="6" style="text-align: center;" th:if="${page.totalPages} > 1">
+                    <div class="ui mini pagination menu">
+                        <a th:href="@{/admin/tags(page=${page.number} - 1)}" class="item" th:unless="${page.first}">上一页</a>
+                        <a th:href="@{/admin/tags(page=${page.number} + 1)}" class="item" th:unless="${page.last}">下一页</a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+<footer th:replace="fragment/front_fragment :: footer"></footer>
+<th:block th:replace="fragment/front_fragment :: script"></th:block>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    //消息提示关闭初始化
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade');
+    });
+</script>
+</body>
+</html>

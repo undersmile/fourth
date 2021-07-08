@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head th:replace="fragment/front_fragment :: head(~{::title})">
+        <title>何年の再遇见-后台登录</title>
+    </head>
+    <body>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="m-container-small m-padded-tb-massive" style="max-width: 30em !important;">
+            <div class="ui container">
+                <div class="ui middle aligned center aligned grid">
+                    <div class="column">
+                        <h2 class="ui blue image header"><div class="content">博 客 网 站 后 台 登 录</div></h2>
+                        <form class="ui large form" method="post" th:action="@{/admin/login}">
+                            <div class="ui segment" style="box-shadow: 0 0 5px dodgerblue;">
+                                <div class="field">
+                                    <div class="ui left icon input">
+                                        <i class="user blue icon"></i>
+                                        <input type="text" value="" name="username" placeholder="用户名">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui left icon input">
+                                        <i class="lock blue icon"></i>
+                                        <input type="password" value="" name="password" placeholder="密码">
+                                    </div>
+                                </div>
+                                <!-- 使用 button 按钮进行提交 -->
+                                <button class="ui fluid large blue submit button">登 录</button>
+                            </div>
+
+                            <div class="ui error mini message"></div>
+                            <!-- 后台的错误提示显示区域 -->
+                            <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">
+                                用户名或密码错误
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:replace="fragment/front_fragment :: script"></th:block>
+
+        <script>
+            $('.ui.form').form({
+                fields: {
+                    username: {
+                        identifier: 'username',
+                        rules: [{
+                            type: 'empty',
+                            prompt: '请输入用户名'
+                        }]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [{
+                            type: 'empty',
+                            prompt: '请输入密码'
+                        }]
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

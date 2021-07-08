@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragment/front_fragment :: head(~{::title})">
+    <title>何年の再遇见-博客首页</title>
+</head>
+<body>
+
+<div class="ui container m-margin-top-large">
+    <div class="ui two stackable grid">
+        <div class="eight wide column" th:each="english : ${list}">
+            <div class="ui segment m-box-shadow" style="border: none;">
+                <div class="ui stackable mobile reversed grid">
+                    <div class="eleven wide column">
+                        <h2 class="m-opacity-tiny">[[${english.author}]]</h2>
+                    </div>
+                    <div class="five wide column right aligned">
+                        <h4 class="m-opacity-tiny">[[${english.assign_date}]]</h4>
+                    </div>
+                </div>
+                <div class="meta">
+                    <a th:href="@{'https://apiv3.shanbay.com/weapps/dailyquote/quote/?date='+${english.assign_date}}"
+                       style="font-size: 20px;display: block; margin: 15px 0;">[[${english.content}]]</a>
+                    <p>[[${english.translation}]]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

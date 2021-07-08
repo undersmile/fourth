@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<!-- head 部分 -->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">博客页面片段</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" th:href="@{/lib/editormd/lib/codemirror/codemirror.min.css}">
+    <link rel="stylesheet" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" th:href="@{/css/semantic.css}">
+<!--    <link rel="stylesheet" th:href="@{/res/layui/css/layui.css}">-->
+<!--    <link rel="stylesheet" th:href="@{/res/css/global.css}">-->
+<!--    <script th:src="@{/res/layui/layui.all.js}"></script>-->
+</head>
+
+
+<body>
+
+
+<!-- 导航部分 -->
+<nav th:fragment="navigation(index)" class="ui attached inverted segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui blue header item">
+                <a th:href="@{/admin}" th:text="GuoShiZhan" style="text-decoration: none;color: #2185D0;cursor: default;">
+                    GuoShiZhan≧◔◡◔≦
+                </a>
+            </h2>
+            <a th:href="@{/index}" class="m-item item m-mobile-hide" th:classappend="${index == 1} ? 'active'">
+                <i class="home orange icon"></i>首页
+            </a>
+            <a th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${index == 2} ? 'active'">
+                <i class="clone blue icon"></i>
+                归档
+            </a>
+            <a th:href="@{/categories/-1}" class="m-item item m-mobile-hide" th:classappend="${index == 3} ? 'active'">
+                <i class="idea yellow icon"></i>
+                分类
+            </a>
+            <a th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${index == 4} ? 'active'">
+                <i class="tags orange icon"></i>
+                标签
+            </a>
+            <a th:href="@{/friend}" class="m-item item m-mobile-hide" th:classappend="${index == 5} ? 'active'">
+                <i class="users blue icon"></i>
+                友链
+            </a>
+            <a href="#" class="m-item item m-mobile-hide" th:classappend="${index == 6} ? 'active'">
+                <i class="video red icon"></i>
+                影音
+            </a>
+            <a th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${index == 7} ? 'active'">
+                <i class="info teal icon"></i>
+                关于我
+            </a>
+            <div class="right m-item item m-mobile-hide">
+                <!-- 博客搜索的表单 -->
+                <form name="search" th:action="@{/search}" method="post">
+                    <div class="ui icon inverted transparent input m-margin-tb-tiny">
+                        <input style="border-radius: 30px !important;padding: 5px !important;margin-right: 10px !important;" type="text" name="query" placeholder="搜索一下…" th:value="${query}">
+                    </div>
+                    <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 以下是一个菜单按钮，用于移动端，在 PC 端是不显示的 -->
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+
+<!-- 页面底部 -->
+<footer th:fragment="footer" class="ui segment vertical inverted m-padded-tb-big">
+    <!-- 为了和顶部保持一致，我们需要使用 container -->
+    <div class="ui center aligned container">
+        <div class="ui stackable inverted divided grid">
+            <div class="sixteen wide column">
+                <p id="jinrishici-sentence" class="m-text-thin m-text-spaced m-opacity-mini">正在加载一句诗词...</p>
+                <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+                <p id="hitokoto" class="m-text-thin m-text-spaced m-opacity-mini">一言句子获取中...</p>
+                <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+            </div>
+        </div>
+        <div class="ui inverted section divider" style="margin-top: 1em;margin-bottom: 1em;"></div>
+        <p class="m-text m-opacity-tiny">Copyright © 2020 - 2021 Designed by guoshizhan</p>
+        <p class="m-text m-opacity-tiny"><a href="http://beian.miit.gov.cn" style="text-decoration: none;color: #fff;cursor: default;">赣ICP备 2020014007 号</a></p>
+    </div>
+</footer>
+
+
+<!-- JavaScript 部分 -->
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <!-- 樱花飘落效果 -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/wallleap/cdn@latest/js/sakura.js"></script> -->
+    <script th:src="@{/js/shutter.js}"></script>
+    <script th:src="@{/lib/editormd/editormd.min.js}"></script>
+    <script th:src="@{/lib/editormd/lib/codemirror/codemirror.min.js}"></script>
+    <script th:src="@{/lib/prism/prism.js}"></script>
+    <script th:src="@{/lib/tocbot/tocbot.js}"></script>
+    <script th:src="@{/lib/waypoints/jquery.waypoints.js}"></script>
+</th:block>
+
+
+</body>
+</html>

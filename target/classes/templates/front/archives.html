@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragment/front_fragment :: head(~{::title})">
+		<title>何年の再遇见-博客归档</title>
+	</head>
+	<body>
+		<!-- 导航部分 -->
+		<nav th:replace="fragment/front_fragment :: navigation(2)"></nav>
+
+		<!-- 内容部分 -->
+		<div class="m-padded-tb-large">
+			<div class="ui container">
+				<div class="ui top segment m-box-shadow">
+					<div class="ui middle aligned two column grid">
+						<div class="column">
+							<h3 class="ui blue header">博客文章归档</h3>
+						</div>
+						<div class="right aligned column">
+							共 <h2 class="ui orange header m-inline-block" th:text="${blogCount}"> 16 </h2> 篇文章
+						</div>
+					</div>
+				</div>
+				<div class="ui segments m-box-shadow" style="margin-bottom: 50px;" th:each="item : ${archiveMap}">
+					<div class="ui segment center aligned">
+						<div class="ui item m-text-thin m-text-spaced m-opacity-tiny">
+							<div class="column">
+								<h1>
+									<i class="calendar alternate orange icon"></i> [[${item.key}]] 年
+									<i class="calendar alternate orange icon"></i>
+								</h1>
+							</div>
+						</div>
+					</div>
+					<div style="border-top: 2px solid #00b5ad;">
+						<div class="ui teal fluid vertical menu" style="border: none;">
+							<a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${item.value}">
+								<span>
+									<i class="mini green circle icon" style="margin-right: 10px;"></i>
+									<span th:text="${blog.title}">Spring Boot 入门教程</span>
+									<div class="ui teal basic left pointing label m-padded-mini" th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2020-10-01</div>
+								</span>
+								<div class="ui blue basic left pointing label m-padded-mini" th:text="${blog.flag}">原创</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面底部 -->
+		<footer th:replace="fragment/front_fragment :: footer"></footer>
+
+		<!-- JS 部分 -->
+		<th:block th:replace="fragment/front_fragment :: script"></th:block>
+		<script>
+			$('.menu.toggle').click(function() {
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+		</script>
+	</body>
+</html>

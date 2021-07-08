@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graduation_design_blog?serverTimezone=GMT%2B8
+    username: root
+    password: root
+  # Jpa 配置
+  jpa:
+    hibernate:
+      ddl-auto: update    # 每一次更新操作都会重新生成表结构
+    show-sql: true        # 把 sql 语句输出到控制台
+
+# 日志的配置
+logging:
+  level:
+    root: info    # 指定 Spring Boot 本身的日志级别
+    club.guoshizhan: debug    # 指定当前项目 club.guoshizhan 包下的日志级别
+  file:
+    name: blog-log/blog-dev.log

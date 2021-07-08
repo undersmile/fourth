@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>博客网站后台片段</title>
+</head>
+
+
+<body>
+
+
+<!-- 导航部分 -->
+<nav th:fragment="navigation(index)" class="ui attached inverted segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu">
+            <h2 class="ui blue header item">
+                <a th:href="@{/}" th:text="GuoShiZhan" style="text-decoration: none;color: #2185D0;cursor: default;">GuoShiZhan≧◔◡◔≦</a>
+            </h2>
+            <a th:href="@{/admin/index}" class="m-item item m-mobile-hide" th:classappend="${index == 1} ? 'active'">
+                <i class="flag red icon"></i>首页
+            </a>
+            <a th:href="@{/admin/blogs}" class="m-item item m-mobile-hide" th:classappend="${index == 2} ? 'active'">
+                <i class="home orange icon"></i>博客
+            </a>
+            <a th:href="@{/admin/categories}" class="m-item item m-mobile-hide" th:classappend="${index == 3} ? 'active'">
+                <i class="idea green icon"></i>分类
+            </a>
+            <a th:href="@{/admin/tags}" class="m-item item m-mobile-hide" th:classappend="${index == 4} ? 'active'">
+                <i class="tags orange icon"></i>标签
+            </a>
+            <a th:href="@{/admin/comments}" class="m-item item m-mobile-hide" th:classappend="${index == 5} ? 'active'">
+                <i class="comment alternate blue icon"></i>评论
+            </a>
+            <div class="ui dropdown item m-mobile-hide">
+                <div class="text m-text-thin m-text-spaced m-opacity-mini">
+                    <i class="clock yellow icon" style="margin-right: 5px;"></i>敬请期待
+                </div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <a th:href="@{/layui}" class="item"><i class="arrow alternate circle right icon black"></i>Layui 世界</a>
+                    <a href="../error/404.html" class="item"><i class="arrow alternate circle right icon black"></i>秘密花园</a>
+                    <a href="../error/500.html" class="item"><i class="arrow alternate circle right icon black"></i>程序学习</a>
+                    <a href="../error/error.html" class="item"><i class="arrow alternate circle right icon black"></i>其他杂文</a>
+                </div>
+            </div>
+
+            <!-- 下拉菜单选项 -->
+            <div class="right m-mobile-hide menu">
+                <div class="ui dropdown item">
+                    <div class="text">
+                        <img src="https://unsplash.it/100/100?image=1005" alt="" class="ui avatar image">
+                        GuoShiZhan
+                    </div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="#" target="_blank" class="item"><i class="user blue icon"></i>关于我</a>
+                        <a th:href="@{/admin/logout}" class="item"><i class="logout red icon"></i>退出系统</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 以下是一个菜单按钮，用于移动端，在 PC 端是不显示的 -->
+    <a href="#" class="ui menu toggle black icon button m-right-top m-mobile-show">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--Layui样式-->
+<!--
+<div th:fragment="navigation(index)" class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" th:href="@{/}">
+            <img src="/res/images/logo.png" alt="layui">
+        </a>
+        <ul class="layui-nav" lay-filter="" style="margin-left: 180px;">
+            <li class="layui-nav-item"><a th:href="@{/admin/index}"><i class="home orange icon"></i>博客首页</a></li>
+            <li class="layui-nav-item"><a th:href="@{/admin/blogs}"><i class="home orange icon"></i>博客管理</a></li>
+            <li class="layui-nav-item"><a th:href="@{/admin/categories}"><i class="home orange icon"></i>博客分类</a></li>
+            <li class="layui-nav-item"><a th:href="@{/admin/tags}"><i class="home orange icon"></i>博客标签</a></li>
+            <li class="layui-nav-item"><a th:href="@{/admin/index}"><i class="home orange icon"></i>博客评论</a></li>
+
+
+            <li class="layui-nav-item">
+                <a href="javascript:;">静态页面</a>
+                <dl class="layui-nav-child" style="text-align: center"> &lt;!&ndash; 二级菜单 &ndash;&gt;
+                    <dd><a href="/custom/matrix">黑客帝国</a></dd>
+                    <dd><a href="/custom/university">大学排行</a></dd>
+                    <dd><a href="/custom/findName">点名册</a></dd>
+                    <dd><a href="/custom/custom" target="_blank">自定义</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">发表博客</a></li>
+            <li class="layui-nav-item layui-this">
+                <span class="fly-search"><i class="layui-icon"></i></span>
+            </li>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            &lt;!&ndash; 未登入的状态 &ndash;&gt;
+            <li class="layui-nav-item"><a href="/login">登入</a></li>
+            <li class="layui-nav-item" style="color: rgba(255,255,255,.7);">|</li>
+            <li class="layui-nav-item"><a href="/register">注册</a></li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+-->
+
+</body>
+</html>

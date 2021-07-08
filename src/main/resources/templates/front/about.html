@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragment/front_fragment :: head(~{::title})">
+		<title>何年の再遇见-关于我</title>
+	</head>
+	<body>
+		<!-- 导航部分 -->
+		<nav th:replace="fragment/front_fragment :: navigation(7)"></nav>
+
+		<!-- 中间内容部分 -->
+		<div class="m-padded-tb-large">
+			<div class="ui container">
+				<div class="ui stackable grid">
+					<!-- 左侧部分 分类、标签等 -->
+					<div class="five wide column">
+						<!-- 分类 -->
+						<div class="ui segments m-box-shadow">
+							<div class="ui segment center aligned">
+								<div class="ui item m-text-thin m-text-spaced m-opacity-tiny">
+									<div class="column"><i class="idea yellow icon"></i>关于我（About Me）</div>
+								</div>
+							</div>
+							<div class="ui teal segment">
+								<div class="ui menu fluid vertical">
+									<a href="#" class="item">
+										思考与感悟
+										<div class="ui teal basic left pointing label">13</div>
+									</a>
+									<a href="#" class="item">
+										思考与感悟
+										<div class="ui teal basic left pointing label">13</div>
+									</a>
+									<a href="#" class="item">
+										财富知识
+										<div class="ui teal basic left pointing label">13</div>
+									</a>
+								</div>
+							</div>
+							
+							
+						</div>
+						<!-- 个人标签 -->
+						<div class="ui segments m-box-shadow">
+							<div class="ui segment center aligned">
+								<div class="ui item m-text-thin m-text-spaced m-opacity-tiny">
+									<div class="column">
+										<i class="tags orange icon"></i>相关标签（tags）
+									</div>
+								</div>
+							</div>
+							<div class="ui teal segment">
+								<div class="ui orange basic left pointing label m-margin-tb-tiny">
+									编程
+								</div>
+								<div class="ui blue basic left pointing label m-margin-tb-tiny">
+									思考
+								</div>
+								<div class="ui red basic left pointing label m-margin-tb-tiny">
+									写作
+								</div>
+								<div class="ui purple basic left pointing label m-margin-tb-tiny">
+									健身
+								</div>
+								<div class="ui green basic left pointing label m-margin-tb-tiny">
+									英语
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									Java
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									Redis
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									MySQL
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									Python
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									JavaScript
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									Spring
+								</div>
+								<div class="ui teal basic left pointing label m-margin-tb-tiny">
+									Mybatis
+								</div>
+							</div>
+						</div>
+						<!-- 联系方式 -->
+						<div class="ui segments m-box-shadow">
+							<div class="ui segment center aligned">
+								<div class="ui item m-text-thin m-text-spaced m-opacity-tiny">
+									<div class="column">
+										<i class="comments orange icon"></i>联系方式（contact）
+									</div>
+								</div>
+							</div>
+							<div class="ui bottom teal attached segment center aligned">
+								<a href="#" class="ui white wechat circular icon button"><i class="weixin green icon"></i></a>
+								<a href="#" class="ui qq circular icon button" data-content="2528910949" data-position="bottom center"><i class="qq blue icon"></i></a>
+							</div>
+							<div class="ui wechat-qr flowing popup transition hidden">
+							  <img th:src="@{/images/wechat.png}" alt="" class="ui rounded image" style="width: 110px">
+							</div>
+						</div>
+						<!-- 二维码 -->
+						<h4 class="ui horizontal divider header m-margin-top-large m-text-thin m-text-spaced m-opacity-tiny">
+							<i class="weixin green icon"></i> 微 信 二 维 码 
+						</h4>
+						<div class="ui centered card"> <!-- 可以在此处加样式  style="width: 11em"  使图片变小一点 -->
+							<img th:src="@{/images/wechat.png}" alt="" class="ui rounded image">
+						</div>
+		
+					</div>
+					<!-- 右侧部分 博客文章列表 -->
+					<div class="eleven wide column">
+						<div class="ui segment m-box-shadow">
+							<img th:src="@{/images/about.png}" alt="" class="rounded ui image">
+							<br/>
+							<img src="https://unsplash.it/1920/1080?image=1045" alt="" class="rounded ui image">
+						</div>
+						<div class="ui segment m-box-shadow">
+							<p class="m-text"><b><i>比较喜欢的一句话：</i></b> 混一天和努力一天，看不出任何差别，三天看不到任何变化，七天也看不到任何距离！但是，一个月后，你会看到话题不同，三个月后，你会看到气场不同，半年后，你会看到距离不同，一年后，你会看到人生道路不同！所以请不要在吃苦的年纪选择安逸，不要假装很努力，结果不会陪你演戏！即使有人会亏待你，但是时间不会辜负你！</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面底部 -->
+		<footer th:replace="fragment/front_fragment :: footer"></footer>
+
+		<!-- JS 部分 -->
+		<th:block th:replace="fragment/front_fragment :: script"></th:block>
+		<script>
+			$('.menu.toggle').click(function() {
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+			$('.wechat').popup({
+			  popup : $('.wechat-qr'),
+			  position: 'bottom center'
+			});
+			$('.qq').popup();
+		</script>
+	</body>
+</html>
